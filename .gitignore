@@ -1,0 +1,8 @@
+*.apk
+*.apkm
+*.xapk
+.env
+.env.*
+local/
+private/
+.DS_Store
