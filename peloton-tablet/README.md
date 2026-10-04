@@ -35,6 +35,7 @@ Android 10 can use this classic ADB-over-TCP workflow. It does not require the n
 | Firefox | 157.0 ARM64 | Browsing works; Home Assistant login completed. |
 | Chrome | 154.0.8037.126 ARM64, API 29+ | Home Assistant login completed; dashboard rendered better than Firefox. MakerWorld Google SSO worked. |
 | Bambu Handy | 4.1.2 | Launches and requests portrait. Login parked: screen offered email/password and Facebook, but no Google SSO. |
+| Home Assistant Companion (minimal) | 2026.8.4 | Installed from the official GitHub release; welcome screen verified. Server setup and login pending. |
 | Spotify | 9.1.88.2204 | Facebook SSO worked. User successfully controlled playback on the garage Echo Dot from the tablet. |
 
 Chrome account/profile sync is not available in the current configuration, which lacks Google Play Services. Web-based Google SSO did work in MakerWorld. The cause of Handy's missing Google login option was not established.
@@ -85,6 +86,7 @@ Chosen dedicated input: **ProtoArc XK01 TP**, a foldable Bluetooth keyboard with
 ## Next checks
 
 - Pair the dedicated keyboard and test typing, clicks, scrolling, and app switching.
+- Complete server setup and login in Home Assistant Companion.
 - Arrange launcher access to Chrome, Home Assistant, and Spotify.
 - Plan and test recovery after a reboot with USB access available.
 - Decide whether Handy is worth further investigation; printer access in Handy remains untested.
@@ -95,6 +97,7 @@ Chosen dedicated input: **ProtoArc XK01 TP**, a foldable Bluetooth keyboard with
 - [Kvaesitso official GitHub release](https://github.com/MM2-0/Kvaesitso/releases/tag/v1.41.0)
 - [Firefox official Mozilla release directory](https://ftp.mozilla.org/pub/fenix/releases/157.0/android/)
 - Chrome and Bambu Handy: APKMirror downloads made by the user on the laptop.
+- [Home Assistant Companion official release](https://github.com/home-assistant/android/releases/tag/2026.8.4): minimal APK SHA-256 `8f58a7df71c61447d3370f5d5956a66e3523625dc4b51c8434bd166d3e731bea`, matched the published release digest.
 - [Spotify download page used](https://spotify.en.uptodown.com/android/download)
 - [ProtoArc XK01 TP manufacturer specifications](https://www.protoarc.com/products/xk01-tp-foldable-keyboard-with-touchpad)
 
