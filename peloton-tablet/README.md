@@ -104,3 +104,25 @@ Chosen dedicated input: **ProtoArc XK01 TP**, a foldable Bluetooth keyboard with
 Spotify APK SHA-256: `1e2e5169f0c2f670a5a3d8e5a54e2a11404e28b46b96025d30ad92f167ed097b`. It matched the download page and passed archive integrity checks before installation. Launch was verified; login and playback were confirmed by the user.
 
 The local `baseline/` directory contains initial package, property, setting, and screenshot captures. **It is not a full system backup.** APKs, screenshots, UI dumps, and local network details remain local and are excluded from Git tracking.
+
+## Peloton updates disabled
+
+On October 4, 2026, background downloads and active device-management/OTA services were found. Five update packages were disabled for Android user 0 using `pm disable-user --user 0`. Their state was verified as `disabled-user`, and no active services belonging to them remained. This setting persists across ordinary reboots, but reboot persistence has not been tested; factory reset or another privileged component could change it.
+
+Disabled packages:
+
+- `com.peloton.updater`
+- `com.onepeloton.dm.android`
+- `com.onepeloton.OTAService`
+- `com.onepeloton.bgupdater`
+- `com.onepeloton.fwupdateservice`
+
+No packages were uninstalled and downloaded update APKs were retained. About 284 MB remained free on the data partition at inspection. The download directory contained about 656 MB of Peloton app/component APKs, including WebView and Netflix. This did not establish that a full OS update was downloaded.
+
+To restore a package to its original default enabled state:
+
+```sh
+adb -s TABLET_IP:5555 shell pm default-state --user 0 PACKAGE_NAME
+```
+
+Google browser logins worked for YouTube, MakerWorld, Drive, and Amazon. Chrome profile login failed with a brief message; logs reported missing Google Play services and Play Store. Google account/services installation remains untested.
