@@ -126,3 +126,7 @@ adb -s TABLET_IP:5555 shell pm default-state --user 0 PACKAGE_NAME
 ```
 
 Google browser logins worked for YouTube, MakerWorld, Drive, and Amazon. Chrome profile login failed with a brief message; logs reported missing Google Play services and Play Store. Google account/services installation remains untested.
+
+## Downloaded installer cleanup
+
+The 14 downloaded Peloton update APKs were copied to the control laptop and verified against tablet SHA-256 checksums. Each tablet file was checked again before deleting only those downloaded copies. Installed packages and app login data were retained. Free data-partition space afterward: 889 MB (79% used). The installer backup and checksum manifest remain local, outside this repository.
