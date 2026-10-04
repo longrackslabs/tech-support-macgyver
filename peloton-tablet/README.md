@@ -130,3 +130,11 @@ Google browser logins worked for YouTube, MakerWorld, Drive, and Amazon. Chrome 
 ## Downloaded installer cleanup
 
 The 14 downloaded Peloton update APKs were copied to the control laptop and verified against tablet SHA-256 checksums. Each tablet file was checked again before deleting only those downloaded copies. Installed packages and app login data were retained. Free data-partition space afterward: 889 MB (79% used). The installer backup and checksum manifest remain local, outside this repository.
+
+## Main Peloton app disabled
+
+During an intermittent YouTube click failure, Android input state showed a full-screen touchable `com.peloton.activity` overlay above Chrome. Chrome held keyboard focus, and no sustained input queue backlog was observed. Force-stopping the app removed its overlay; this is a suspect rather than proof of the click failure's cause. Raw mouse capture included paired left/right button press and release events, but lacked a controlled click sequence to assess duplicates.
+
+The main app was then disabled with `pm disable-user --user 0 com.peloton.activity`. Chrome remained foreground, Kvaesitso remained the default launcher, and the Peloton overlay was absent. Mouse behavior still needs user confirmation. Other Peloton hardware packages remain enabled pending individual assessment.
+
+Restore with `adb -s TABLET_IP:5555 shell pm default-state --user 0 com.peloton.activity`.
