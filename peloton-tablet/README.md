@@ -138,3 +138,9 @@ During an intermittent YouTube click failure, Android input state showed a full-
 The main app was then disabled with `pm disable-user --user 0 com.peloton.activity`. Chrome remained foreground, Kvaesitso remained the default launcher, and the Peloton overlay was absent. Mouse behavior still needs user confirmation. Other Peloton hardware packages remain enabled pending individual assessment.
 
 Restore with `adb -s TABLET_IP:5555 shell pm default-state --user 0 com.peloton.activity`.
+
+## Clock screensaver
+
+Installed Clock Screensaver & Widget 2.2 (`systems.sieber.fsclock`) from F-Droid. Selected `systems.sieber.fsclock/.FullscreenDream` as the system screensaver, enabled it, enabled activation while charging, and disabled dock-only activation. Android Settings confirmed “Fullscreen Clock” and “While charging”. Existing screen-off timeout remains 1,200,000 ms (20 minutes). The dream service started during preview; pointer input dismissed an initial preview. Full-screen clock rendering was then verified visually. Automatic activation after 20 minutes of inactivity remains to be observed; video playback may keep the screen awake.
+
+Original screensaver settings are saved locally in `screensaver-before.txt`. To disable: `adb -s TABLET_IP:5555 shell settings put secure screensaver_enabled 0`. To open controls: `adb -s TABLET_IP:5555 shell am start -a android.settings.DREAM_SETTINGS`.
