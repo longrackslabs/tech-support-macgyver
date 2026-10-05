@@ -1,0 +1,77 @@
+# Replace media_player.workshop_tablet with the entity created by your ADB integration.
+# JSON syntax is also valid YAML and is accepted by the HA automation YAML editor.
+{
+  "id": "macgyver_workshop_tablet_occupancy",
+  "alias": "Workshop Tablet - Occupancy Screen Control",
+  "description": "Wake on workbench PIR, garage motion, or garage presence. Sleep after all three are off continuously for 10 minutes. Unknown/unavailable does not count as empty. Preserves the current app and clock screensaver.",
+  "triggers": [
+    {
+      "trigger": "template",
+      "value_template": "{{ is_state('binary_sensor.esphome_workbench_pir', 'on') or is_state('binary_sensor.garage_motion', 'on') or is_state('binary_sensor.garage_presence', 'on') }}",
+      "id": "occupied"
+    },
+    {
+      "trigger": "template",
+      "value_template": "{{ is_state('binary_sensor.esphome_workbench_pir', 'off') and is_state('binary_sensor.garage_motion', 'off') and is_state('binary_sensor.garage_presence', 'off') }}",
+      "for": {
+        "minutes": 10
+      },
+      "id": "empty"
+    },
+    {
+      "trigger": "homeassistant",
+      "event": "start",
+      "id": "startup"
+    }
+  ],
+  "conditions": [],
+  "actions": [
+    {
+      "choose": [
+        {
+          "conditions": [
+            {
+              "condition": "template",
+              "value_template": "{{ is_state('binary_sensor.esphome_workbench_pir', 'on') or is_state('binary_sensor.garage_motion', 'on') or is_state('binary_sensor.garage_presence', 'on') }}"
+            }
+          ],
+          "sequence": [
+            {
+              "action": "androidtv.adb_command",
+              "target": {
+                "entity_id": "media_player.workshop_tablet"
+              },
+              "data": {
+                "command": "input keyevent 224"
+              }
+            }
+          ]
+        },
+        {
+          "conditions": [
+            {
+              "condition": "trigger",
+              "id": "empty"
+            },
+            {
+              "condition": "template",
+              "value_template": "{{ is_state('binary_sensor.esphome_workbench_pir', 'off') and is_state('binary_sensor.garage_motion', 'off') and is_state('binary_sensor.garage_presence', 'off') }}"
+            }
+          ],
+          "sequence": [
+            {
+              "action": "androidtv.adb_command",
+              "target": {
+                "entity_id": "media_player.workshop_tablet"
+              },
+              "data": {
+                "command": "input keyevent 223"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "mode": "restart"
+}
