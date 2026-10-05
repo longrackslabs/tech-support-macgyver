@@ -152,3 +152,13 @@ Added the built-in Android Debug Bridge integration to the Home Assistant server
 HA exposes media-player and remote entities for the tablet. The media player reported idle and media volume 40%. A wake command sent through HA's `androidtv.adb_command` action completed successfully (HTTP 200). Automatic screen-off/wake behavior remains to be tested. Keep the laptop ADB session disconnected when testing HA control; concurrent connections require further investigation. Wi-Fi ADB reboot persistence is still untested.
 
 The existing shop-light automations were inspected: light-on uses workbench/print-farm PIR events; light-off combines garage motion and garage presence checks. A proposed tablet automation would wake on shop activity and turn the display off only after the relevant sensors show no occupancy continuously for ten minutes. No new occupancy automation has been installed yet.
+
+## Occupancy screen automation enabled
+
+Created and enabled “Workshop Tablet - Occupancy Screen Control” without changing the shop-light automations. It uses Workbench PIR, Garage Motion, and Garage Presence. The missing print-farm PIR referenced by an older light automation is excluded.
+
+Any sensor on wakes the display. All three sensors must be explicitly off continuously for ten minutes to sleep the display; unknown/unavailable is not treated as empty. On HA startup, current occupancy wakes the tablet. The automation preserves the current app and uses `input keyevent 224` (wake) and `input keyevent 223` (sleep) through HA's ADB action. The clock screensaver remains configured independently.
+
+Verified: automation saved, loaded, and enabled; ADB echo returned the expected text; manually triggering with presence on succeeded; a brief sleep/wake test reported Android `mWakefulness=Dozing` then `mWakefulness=Awake`. The automatic ten-minute empty-room cycle remains to be observed. Template-trigger waiting periods restart when HA or automations reload.
+
+See [occupancy-automation.yaml](occupancy-automation.yaml) for a reusable copy; replace its media-player entity placeholder with your tablet's actual entity.
