@@ -144,3 +144,11 @@ Restore with `adb -s TABLET_IP:5555 shell pm default-state --user 0 com.peloton.
 Installed Clock Screensaver & Widget 2.2 (`systems.sieber.fsclock`) from F-Droid. Selected `systems.sieber.fsclock/.FullscreenDream` as the system screensaver, enabled it, enabled activation while charging, and disabled dock-only activation. Android Settings confirmed “Fullscreen Clock” and “While charging”. Existing screen-off timeout remains 1,200,000 ms (20 minutes). The dream service started during preview; pointer input dismissed an initial preview. Full-screen clock rendering was then verified visually. Automatic activation after 20 minutes of inactivity remains to be observed; video playback may keep the screen awake.
 
 Original screensaver settings are saved locally in `screensaver-before.txt`. To disable: `adb -s TABLET_IP:5555 shell settings put secure screensaver_enabled 0`. To open controls: `adb -s TABLET_IP:5555 shell am start -a android.settings.DREAM_SETTINGS`.
+
+## Home Assistant ADB control
+
+Added the built-in Android Debug Bridge integration to the Home Assistant server using the tablet's LAN IP, port 5555, Android TV device class, and the built-in Python ADB implementation. Approved HA's RSA key with always-allow. Early attempts failed; a retry with the laptop's ADB session disconnected created a loaded integration. This does not establish which setting or connection change resolved the failures.
+
+HA exposes media-player and remote entities for the tablet. The media player reported idle and media volume 40%. A wake command sent through HA's `androidtv.adb_command` action completed successfully (HTTP 200). Automatic screen-off/wake behavior remains to be tested. Keep the laptop ADB session disconnected when testing HA control; concurrent connections require further investigation. Wi-Fi ADB reboot persistence is still untested.
+
+The existing shop-light automations were inspected: light-on uses workbench/print-farm PIR events; light-off combines garage motion and garage presence checks. A proposed tablet automation would wake on shop activity and turn the display off only after the relevant sensors show no occupancy continuously for ten minutes. No new occupancy automation has been installed yet.
